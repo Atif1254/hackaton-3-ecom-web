@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-vertical {
+  writing-mode: vertical-rl; /* Rotates the text vertically */
+  transform: rotate(180deg); /* Flips text for proper direction */
+}
+
