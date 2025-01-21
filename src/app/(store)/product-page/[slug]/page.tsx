@@ -1,10 +1,13 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { client } from '../../../../sanity/lib/client'; // Ensure this path is correct for your setup
+import { client } from '../../../../sanity/lib/client'; 
 import { notFound } from 'next/navigation';
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
+import RecommendationSection from './Recommendation';
+import WishlistButton from '../../wishlist/WishlistButton';
 
 interface Product {
   _id: string;
@@ -16,7 +19,7 @@ interface Product {
   imageUrl: string;
 }
 
-// The fetch function now properly handles missing product data.
+// Fetch product data from Sanity
 async function fetchProductData(slug: string): Promise<Product | null> {
   const productQuery = `*[_type == "product" && slug.current == $slug][0] {
     _id,
@@ -30,20 +33,19 @@ async function fetchProductData(slug: string): Promise<Product | null> {
 
   try {
     const product = await client.fetch(productQuery, { slug });
-    return product || null;  // Return null if no product found
+    return product || null; // Return null if no product is found
   } catch (error) {
-    console.error("Error fetching product data:", error);
+    console.error('Error fetching product data:', error);
     return null;
   }
 }
 
-// Component for the product page with error handling
+// Product page component
 const ProductPage = ({ params }: { params: { slug: string } }) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch product data when component mounts
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const fetchedProduct = await fetchProductData(params.slug);
       if (!fetchedProduct) {
@@ -85,26 +87,32 @@ const ProductDetails = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row m-auto mt-[100px] px-4 md:w-[1100px] mb-[100px]">
+    <>
+    <div className="flex flex-col justify-center md:flex-row m-auto my-[100px] w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-7xl">
       {/* Product Image */}
       <Image
         src={product.imageUrl}
         alt={product.name}
         width={500}
         height={550}
-        className="rounded-lg shadow-md"
+        className="rounded-lg shadow-sm hover:scale-110 overflow-hidden relative object-cover transition-all duration-200"
       />
 
       {/* Product Details */}
       <div className="flex flex-col w-full md:w-[300px] h-[350px] md:ml-[100px] justify-around text-left mt-6 md:mt-0">
+        {/* Title */}
         <h1 className="text-lg md:text-3xl font-bold mb-4">{product.name}</h1>
 
-        <div className="my-4">
+        {/* Pricing */}
+        <div className="my-4 gap-5">
           {discountedPrice ? (
             <>
-              <p className="text-gray-400 line-through">${product.price} USD</p>
-              <p className="text-lg font-bold text-[#029fae]">
+              <p className="text-gray-400 line-through mb-2">${product.price}</p>
+              <p className="text-lg font-bold text-[#029fae] mb-2">
                 ${discountedPrice.toFixed(2)} USD
+              </p>
+              <p className="text-black font-semibold">
+                ({product.discountPercentage}% OFF)
               </p>
             </>
           ) : (
@@ -114,7 +122,53 @@ const ProductDetails = ({ product }: { product: Product }) => {
           )}
         </div>
 
-        <p className="text-gray-500 mb-4">
+        {/* Wishlist Button */}
+        <div>
+          <WishlistButton productId={product._id} /> {/* Add WishlistButton here */}
+        </div>
+
+        {/* Express Shipping */}
+        <div className="flex items-center my-5">
+           <Switch id="Express Shipping" className='mr-5'/>
+           <Label htmlFor="Express-Shipping">Express Shipping <span className='text-gray-600'> (Charge's $50 Extra!) </span></Label>
+        </div>
+
+        {/* Ratings */}
+        <div className="flex mb-2">
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/emoji/48/star-emoji.png"
+            alt="star-emoji"
+          />
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/emoji/48/star-emoji.png"
+            alt="star-emoji"
+          />
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/emoji/48/star-emoji.png"
+            alt="star-emoji"
+          />
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/emoji/48/star-emoji.png"
+            alt="star-emoji"
+          />
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/emoji/48/star-emoji.png"
+            alt="star-emoji"
+          />
+        </div>
+
+        {/* Stock Level */}
+        <p className="text-gray-500 my-2">
           {product.stockLevel > 0 ? (
             <span>In Stock: {product.stockLevel}</span>
           ) : (
@@ -122,6 +176,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
           )}
         </p>
 
+        {/* Quantity Controls */}
         <div className="flex items-center gap-4 mb-6">
           <button
             className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
@@ -140,8 +195,11 @@ const ProductDetails = ({ product }: { product: Product }) => {
           </button>
         </div>
 
+        {/* Add to Cart Button */}
         <button
-          className="text-sm w-[130px] h-[40px] bg-[#029fae] text-white rounded-md snipcart-add-item"
+          className="text-sm w-full max-w-64 h-[40px] bg-[#029fae] text-white 
+                rounded-md snipcart-add-item  font-semibold  bg-gradient-to-b from-[#029fae] 
+                to-teal-600 shadow:sm transform transition-all duration-300 hover:scale-105"
           data-item-id={product._id}
           data-item-name={product.name}
           data-item-price={discountedPrice || product.price}
@@ -154,6 +212,11 @@ const ProductDetails = ({ product }: { product: Product }) => {
         </button>
       </div>
     </div>
+    {/*  Recommendation Section */}
+    <div className='my-10'>
+      <RecommendationSection />
+    </div>
+    </>
   );
 };
 
