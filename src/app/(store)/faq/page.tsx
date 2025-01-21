@@ -15,7 +15,7 @@ export default function FAQ() {
             className="text-4xl md:text-5xl mb-5 font-bold bg-gradient-to-r from-gray-900 via-gray-500
            to-black bg-clip-text text-transparent"
           >
-            FAQ'S
+            FAQ&apos;S
           </h1>
         </div>
         {/* Accordion Component */}

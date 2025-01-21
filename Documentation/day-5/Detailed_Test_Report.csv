@@ -1,0 +1,13 @@
+Test Case ID,Test Case Description,Test Steps,Expected Result,Actual Result,Status,Severity Level,Assigned To,Remarks
+TC001,Validate product listing page,"1. Open product page
+2. Verify product data against Sanity CMS
+3. Check for accurate rendering of name, price, and images",Products displayed correctly with accurate details,Products displayed correctly with accurate details,Passed,Low,-,No issues found
+TC002,Test API error handling,"1. Disconnect API or simulate network error
+2. Refresh the page
+3. Verify fallback UI and error message display",Fallback UI with appropriate error message is shown,Error message displayed as expected,Passed,Medium,-,Error handled gracefully with clear UI feedback
+TC003,Check cart functionality,"1. Add a product to the cart
+2. Navigate to the cart page
+3. Verify product details and quantity are displayed correctly",Cart updates with added product and accurate details,Cart updated as expected with correct details,Passed,High,-,Functionality works as intended
+TC004,Ensure responsiveness on mobile,"1. Resize browser window to simulate mobile screen
+2. Check layout and usability
+3. Verify all components are accessible",Layout adjusts properly to mobile screen size,Responsive layout working as intended,Passed,Medium,-,Test successful; layout is mobile-friendly

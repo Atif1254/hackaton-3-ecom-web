@@ -2,14 +2,32 @@
 import { useEffect, useState } from "react";
 import { client } from "../../../../sanity/lib/client"; // Import the Sanity client
 
+// Define the type for the product data
+interface Product {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  price: number;
+  discountPercentage: number;
+  description: string;
+  image: {
+    asset: {
+      url: string;
+    };
+  };
+  rating: number;
+}
+
 const RecommendationSection = () => {
-  const [randomProducts, setRandomProducts] = useState<any[]>([]);
+  const [randomProducts, setRandomProducts] = useState<Product[]>([]);
 
   // Function to fetch products from Sanity and shuffle them
   const fetchRandomProducts = async () => {
     try {
       // Query to get necessary fields from Sanity
-      const products = await client.fetch(`
+      const products: Product[] = await client.fetch(`
         *[_type == "product"][0..5] {
           _id,
           name,
@@ -25,8 +43,8 @@ const RecommendationSection = () => {
           rating
         }
       `);
-      
-      // Shuffle the products array and pick the first 4
+
+      // Shuffle the products array and pick the first 6
       const shuffled = products.sort(() => 0.5 - Math.random()).slice(0, 6);
       setRandomProducts(shuffled);
     } catch (error) {

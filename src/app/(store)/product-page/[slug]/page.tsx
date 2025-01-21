@@ -130,7 +130,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
         {/* Express Shipping */}
         <div className="flex items-center my-5">
            <Switch id="Express Shipping" className='mr-5'/>
-           <Label htmlFor="Express-Shipping">Express Shipping <span className='text-gray-600'> (Charge's $50 Extra!) </span></Label>
+           <Label htmlFor="Express-Shipping">Express Shipping <span className='text-gray-600'> (Charge&apos;s $50 Extra!) </span></Label>
         </div>
 
         {/* Ratings */}

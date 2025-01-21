@@ -1,6 +1,13 @@
 "use client";
 import { useRef, useState } from "react";
 
+// Define the type for shipmentDetails
+interface ShipmentDetails {
+    // Define the structure of the expected response from the API
+    message: string;
+    // Add other fields that you expect to receive in the response
+}
+
 export default function AddressForm() {
     // Refs to store form input values
     const getName = useRef<HTMLInputElement>(null);
@@ -13,8 +20,8 @@ export default function AddressForm() {
     const getCountry = useRef<HTMLInputElement>(null);
     const getAddressResidentialIndicator = useRef<HTMLSelectElement>(null);
 
-    // State to store shipment details
-    const [shipmentDetails, setShipmentDetails] = useState<any>(null);
+    // State to store shipment details (updated type)
+    const [shipmentDetails, setShipmentDetails] = useState<ShipmentDetails | null>(null);
 
     // Handle form submission
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,8 +62,8 @@ export default function AddressForm() {
             // Save the response to state
             const data = await res.json();
             setShipmentDetails(data);
-        } catch (error) {
-            console.log("Error");
+        } catch (err) {
+            console.log("Error", err); // Optional: Log the error for debugging
         }
     };
 
