@@ -1,7 +1,7 @@
 import Image from "next/image";
 import product1 from "../../../../public/sofa-1.png";
-import product2 from "../../../../public/our-product-2.png";
-import product3 from "../../../../public/our-product-3.png";
+import product2 from "../../../../public/our-product-8.png";
+
 
 export default function Grid() {
   return (
@@ -30,7 +30,7 @@ export default function Grid() {
             </div>
             {/* Image 3 */}
             <div>
-              <Image src={product3} alt="Error" width={300} height={300} />
+              <Image src={product2} alt="Error" width={300} height={300} />
             </div>
           </div>
         </div>
