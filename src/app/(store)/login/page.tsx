@@ -1,4 +1,4 @@
-// src/app/login/page.tsx
+"use client";
 import Login from "@/components/Login"; // Import the Login component
 
 export default function LoginPage() {
