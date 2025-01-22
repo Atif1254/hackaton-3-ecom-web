@@ -1,6 +1,6 @@
 # Next.js Project
 
-**Date:** 8-12-2024  
+**StartedDate:** 8-12-2024  
 **UpdatedDate:** 22-1-2025  
 **Description:** This is an e-commerce hackathon project, expected to be delivered within 7 days. However, I completed in less than 7 days. For some use cases where I encountered challenges, I utilized ChatGPT for assistance. The resulting code is efficient and meets the requirements effectively. This code is also Responsive.
 
