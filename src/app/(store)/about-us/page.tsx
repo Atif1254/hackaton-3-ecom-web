@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+<Image src="/your-image.png" alt="Product Image" width={500} height={300} />
 export default function AboutUs() {
    return(
       <>
